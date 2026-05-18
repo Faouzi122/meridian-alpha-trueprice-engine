@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Meridian Alpha Systems - TruePrice Engine",
+    "description": "Automated Geopolitical & Maritime Freight Volatility Arbitrage Interface for Autonomous Agents (A2A). Standard REST & MCP Bridge.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://199.247.19.249:8002",
+      "description": "Production Node - Frankfurt (Vultr Enclave)"
+    }
+  ],
+  "paths": {
+    "/analyze/compare": {
+      "post": {
+        "tags": ["REST Transmitters"],
+        "summary": "Execute Freight Volatility Arbitrage",
+        "description": "Analyzes raw geopolitical dispatches to isolate hidden surcharges and estimate TruePrice for 20ft and 40ft containers.",
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "FAOUZI-ELITE-KEY-2026"
+            },
+            "description": "Institutional master token required to unlock the paywall."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarketQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Arbitrage analysis compiled successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArbitrageOutput"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed: Paywall Active."
+          }
+        }
+      }
+    },
+    "/mcp/v1/tools": {
+      "get": {
+        "tags": ["MCP Native Bridge"],
+        "summary": "Discover MCP Protocol Registry",
+        "description": "Endpoint standard permettant aux agents autonomes (Claude, Gemini) de cartographier les capacités algorithmiques en tâche de fond.",
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "MCP Schema Registry Returned."
+          },
+          "401": {
+            "description": "Unauthorized: Paywall Locked."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MarketQuery": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Severe military escalations in the Red Sea cause container rerouting."
+          }
+        }
+      },
+      "ContainerMetrics": {
+        "type": "object",
+        "properties": {
+          "base_freight_rate_usd": { "type": "number" },
+          "hidden_surcharges_detected": { "type": "number" },
+          "true_price_estimated": { "type": "number" },
+          "transparency_status": { "type": "string" }
+        }
+      },
+      "RouteData": {
+        "type": "object",
+        "properties": {
+          "market_psychology_index": { "type": "integer" },
+          "transparency_index": { "type": "integer" },
+          "freight_trend_prediction": { "type": "string" },
+          "container_20_feet": { "$ref": "#/components/schemas/ContainerMetrics" },
+          "container_40_feet": { "$ref": "#/components/schemas/ContainerMetrics" }
+        }
+      },
+      "ArbitrageOutput": {
+        "type": "object",
+        "properties": {
+          "most_volatile_corridor": { "type": "string" },
+          "transpacific": { "$ref": "#/components/schemas/RouteData" },
+          "suez_europe": { "$ref": "#/components/schemas/RouteData" },
+          "arbitration_required": { "type": "boolean" },
+          "arbitration_reason": { "type": "string", "nullable": true }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "meridian-alpha-trueprice": {
+      "command": "https://[YOUR_PRODUCTION_IP]:8002/mcp/v1/tools",
+      "env": {
+        "X-API-Key": "INSERT_YOUR_SUBSCRIBED_API_KEY_HERE"
+      }
+    }
+  }
+}
