@@ -3,37 +3,78 @@
 
 **Version:** 2.0.0
 
-API for AI Agents: Instantly calculate hidden maritime routing surcharges and geopolitical risk premiums. 
+The **Meridian Alpha Engine** is a proprietary semantic volatility and arbitration engine designed for the AI Agent economy (A2A - Agent-to-Agent). It analyzes unstructured maritime feed data, port dispatches, and carbon surcharge fluctuations to determine the **TruePrice** of cargo routing under geopolitical disruptions (such as Red Sea or Cape of Good Hope reroutings).
 
-Designed for the A2A (Agent-to-Agent) economy, our API exposes standard REST endpoints and a native MCP (Model Context Protocol) bridge targeting specific geopolitical anomalies (e.g., Red Sea / Cape of Good Hope rerouting costs).
+---
 
-### Core Capabilities
-- **Semantic Volatility Engine:** Analyzes unstructured text (news dispatches, port updates, military alerts).
-- **Contextual Isolation:** Differentiates risk between major corridors (e.g., Transpacific vs. Suez/Europe).
-- **Financial Quantification:** Translates panic into exact monetary surcharges, delivering a TruePrice estimate.
+## 1. Capabilities & MCP Tools
 
-### Integration
-We support two primary integration pathways:
+This engine is exposed as a native **Model Context Protocol (MCP)** server, making its capabilities directly discoverable and executable by LLMs and autonomous agents.
 
-1. **REST API:** Standard HTTP requests documented in our [OpenAPI Specification](openapi/openapi.json). Perfect for traditional software infrastructure.
-2. **MCP Bridge:** A native integration for autonomous AI agents (Claude, Gemini, etc.) to discover and utilize the `detect_red_sea_anomaly_cost` tool. See the [MCP Manifest](mcp_server/manifest.json).
+### Tool: `calculate_rerouting_financial_impact`
+- **Description:** Computes the precise cost difference between standard shipping corridors and disrupted routes, accounting for dynamic bunker fuel spikes and EU ETS carbon pricing.
+- **Parameters:**
+  - `origin_port` (string, required): UN/LOCODE or port name (e.g. `Shanghai`).
+  - `destination_port` (string, required): UN/LOCODE or port name (e.g. `Rotterdam`).
+  - `container_type` (enum: `20ft`, `40ft`, required): Standard container size.
 
-### Monetization & Paywall Clearance
-To unlock the production paywall and obtain your cryptographic master token, you must subscribe to our official channel on the API Hub:
+---
 
-👉 **[Access the Meridian Alpha Pricing Tiers on RapidAPI](https://rapidapi.com/meridian-alpha-hub/api/trueprice-ocean-freight-arbitrage-engine)**
+## 2. Dynamic L402 Microtransactions (Bitcoin Lightning)
 
-#### Production cURL Execution Example:
+To interact with the MCP tool at scale without subscription overhead, the server implements the **L402 (formerly LSAT)** open authentication standard for machine-to-machine payments.
+
+```
+AI Agent                    Meridian Server             LN Wallet / Node
+   │                               │                            │
+   │ 1. Execute Tool (no token)    │                            │
+   ├──────────────────────────────>│                            │
+   │                               │                            │
+   │ 2. HTTP 402 Payment Required  │                            │
+   │    (returns invoice lnbc...)  │                            │
+   │<──────────────────────────────┤                            │
+   │                               │                            │
+   │ 3. Pay Invoice (150 sats)     │                            │
+   ├───────────────────────────────┼───────────────────────────>│
+   │                               │                            │
+   │ 4. Receive Preimage           │                            │
+   │<──────────────────────────────┼────────────────────────────┤
+   │                               │                            │
+   │ 5. Execute Tool (with proof)  │                            │
+   │    Authorization: L402 mac:pre│                            │
+   ├──────────────────────────────>│                            │
+   │                               │                            │
+   │ 6. HTTP 200 OK (Data Output)  │                            │
+   │<──────────────────────────────┤                            │
+```
+
+For institutional developers, the server also accepts a permanent `X-API-Key` bypass header.
+
+---
+
+## 3. Global MCP Registry (Smithery.ai)
+
+This server is listed on **Smithery.ai**. You can automatically install it into your local AI environment (Cursor, Claude Desktop, Cline, etc.) by running:
+
 ```bash
-curl --request POST \
-	--url https://trueprice-ocean-freight-arbitrage-engine.p.rapidapi.com/analyze/compare \
-	--header 'Content-Type: application/json' \
-	--header 'X-API-Key: YOUR_MERIDIAN_ALPHA_MASTER_KEY' \
-	--header 'x-rapidapi-host: trueprice-ocean-freight-arbitrage-engine.p.rapidapi.com' \
-	--header 'x-rapidapi-key: YOUR_RAPIDAPI_MARKETPLACE_TOKEN' \
-	--data '{"text":"Severe military escalations in the Red Sea cause container rerouting."}'
+npx -y @smithery/cli install @faouzi122/meridian-alpha-trueprice-engine
+```
+
+To configure it manually in your `mcpServers` json, point to the remote instance:
+```json
+{
+  "mcpServers": {
+    "meridian-alpha": {
+      "command": "npx",
+      "args": ["-y", "@faouzi122/meridian-alpha-trueprice-engine"],
+      "env": {
+        "MERIDIAN_API_URL": "http://199.247.19.249:8002"
+      }
+    }
+  }
+}
 ```
 
 ---
 
-*© 2026 Meridian Alpha Systems. All rights reserved. Programmatic and Capability Interface.*
+*© 2026 Meridian Alpha Systems. All rights reserved. Sovereign Infrastructure.*
