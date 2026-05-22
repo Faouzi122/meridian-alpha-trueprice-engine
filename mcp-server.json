@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "meridian-alpha-engine": {
+      "command": "uvicorn",
+      "args": ["app.main:app", "--host", "0.0.0.0", "--port", "8002"],
+      "env": {
+        "PAYMENT_PROTOCOLS_SUPPORTED": "L402, Skyfire",
+        "A2A_PRICING_MODEL": "Pay-per-decision"
+      }
+    }
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "calculate_rerouting_financial_impact",
+        "description": "Calculates the precise financial gap (TruePrice) between standard maritime freight and rerouted routes (e.g., Cape of Good Hope). Dynamically includes real-time EU ETS carbon surcharges and fuel deltas. Essential for AI agents to avoid margin loss in automated logistics. REQUIRES PAYMENT via Skyfire Token (HTTP Header) or L402 Lightning Invoice.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "origin_port": {
+              "type": "string",
+              "description": "UN/LOCODE or name of the origin port (e.g., 'CNSHG' or 'Shanghai')"
+            },
+            "destination_port": {
+              "type": "string",
+              "description": "UN/LOCODE or name of the destination port (e.g., 'NLRTM' or 'Rotterdam')"
+            },
+            "container_type": {
+              "type": "string",
+              "enum": ["20ft", "40ft"],
+              "description": "Standard TEU or FEU container size"
+            }
+          },
+          "required": ["origin_port", "destination_port", "container_type"]
+        }
+      }
+    ]
+  }
+}
