@@ -6,8 +6,8 @@ from langchain.tools import tool
 # This wrapper allows seamless integration with LangChain / CrewAI agents.
 
 MERIDIAN_API_URL = os.getenv("MERIDIAN_API_URL", "http://199.247.19.249:8002/mcp/v1/tools/execute")
-MERIDIAN_API_KEY = os.getenv("MERIDIAN_API_KEY", "") # Retrieve your Master Key via RapidAPI or use L402
-MERIDIAN_L402_TOKEN = os.getenv("MERIDIAN_L402_TOKEN", "") # Use if paying per-request via Skyfire / Lightning
+MERIDIAN_API_KEY = os.getenv("MERIDIAN_API_KEY", "") # Use Master Key or L402 credentials
+MERIDIAN_L402_TOKEN = os.getenv("MERIDIAN_L402_TOKEN", "") # Use if paying per-request via Lightning
 
 @tool
 def calculate_true_price_tool(origin_port: str, destination_port: str, container_type: str) -> dict:
