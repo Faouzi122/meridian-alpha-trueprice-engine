@@ -1,11 +1,11 @@
 # Meridian Alpha Systems - TruePrice & Transparency Engine
 ## Automated Geopolitical & Maritime Freight Volatility Arbitrage
 
-**Version:** 1.0.0
+**Version:** 2.0.0
 
-Meridian Alpha Systems provides a high-performance, algorithmic evaluation of geopolitical news, identifying hidden surcharges and calculating TruePrice estimates for 20ft and 40ft maritime containers. 
+API for AI Agents: Instantly calculate hidden maritime routing surcharges and geopolitical risk premiums. 
 
-Designed for the A2A (Agent-to-Agent) economy, our API exposes standard REST endpoints and a native MCP (Model Context Protocol) bridge, allowing autonomous agents to execute rapid, sub-15ms volatility arbitrage.
+Designed for the A2A (Agent-to-Agent) economy, our API exposes standard REST endpoints and a native MCP (Model Context Protocol) bridge targeting specific geopolitical anomalies (e.g., Red Sea / Cape of Good Hope rerouting costs).
 
 ### Core Capabilities
 - **Semantic Volatility Engine:** Analyzes unstructured text (news dispatches, port updates, military alerts).
@@ -16,7 +16,7 @@ Designed for the A2A (Agent-to-Agent) economy, our API exposes standard REST end
 We support two primary integration pathways:
 
 1. **REST API:** Standard HTTP requests documented in our [OpenAPI Specification](openapi/openapi.json). Perfect for traditional software infrastructure.
-2. **MCP Bridge:** A native integration for autonomous AI agents (Claude, Gemini, etc.) to discover and utilize the `get_true_freight_arbitrage` tool. See the [MCP Manifest](mcp_server/manifest.json).
+2. **MCP Bridge:** A native integration for autonomous AI agents (Claude, Gemini, etc.) to discover and utilize the `detect_red_sea_anomaly_cost` tool. See the [MCP Manifest](mcp_server/manifest.json).
 
 ### Monetization & Paywall Clearance
 To unlock the production paywall and obtain your cryptographic master token, you must subscribe to our official channel on the API Hub:
